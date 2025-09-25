@@ -3,10 +3,7 @@ package edu.hitsz.application;
 import edu.hitsz.aircraft.*;
 import edu.hitsz.bullet.BaseBullet;
 import edu.hitsz.basic.AbstractFlyingObject;
-import edu.hitsz.prop.AbstractProp;
-import edu.hitsz.prop.BombProp;
-import edu.hitsz.prop.BulletProp;
-import edu.hitsz.prop.HpProp;
+import edu.hitsz.prop.*;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 
 import javax.swing.*;
@@ -81,10 +78,9 @@ public class Game extends JPanel {
     private boolean gameOverFlag = false;
 
     public Game() {
-        heroAircraft = new HeroAircraft(
-                Main.WINDOW_WIDTH / 2,
+        heroAircraft = HeroAircraft.getInstance(Main.WINDOW_WIDTH / 2,
                 Main.WINDOW_HEIGHT - ImageManager.HERO_IMAGE.getHeight() ,
-                0, 0, 100);
+                0, 0, 1000);
 
         enemyAircrafts = new LinkedList<>();
         heroBullets = new LinkedList<>();
@@ -119,24 +115,26 @@ public class Game extends JPanel {
                 System.out.println(time);
                 // 新敌机产生
                 if (enemyAircrafts.size() < enemyMaxNumber) {
-
+                    EnemyFactory enemyFactory;
+                    EnemyAircraft enemy;
                     if (Math.random() < EliteFactor) {
-                        enemyAircrafts.add(new EliteEnemy(
-                                (int) (Math.random() * (Main.WINDOW_WIDTH - ImageManager.ELITE_ENEMY_IMAGE.getWidth())),
+                        enemyFactory = new EliteFactory();
+                        enemy = enemyFactory.createEnemy( (int) (Math.random() * (Main.WINDOW_WIDTH - ImageManager.ELITE_ENEMY_IMAGE.getWidth())),
                                 (int) (Math.random() * Main.WINDOW_HEIGHT * 0.1),
                                 2, // 横向速度
                                 8, // 纵向速度
                                 60 // 生命值
-                        ));
+                        );
                     } else {
-                        enemyAircrafts.add(new MobEnemy(
-                                (int) (Math.random() * (Main.WINDOW_WIDTH - ImageManager.MOB_ENEMY_IMAGE.getWidth())),
-                                (int) (Math.random() * Main.WINDOW_HEIGHT * 0.05),
-                                0,
-                                10,
-                                30
-                        ));
+                        enemyFactory = new MobFactory();
+                        enemy = enemyFactory.createEnemy( (int) (Math.random() * (Main.WINDOW_WIDTH - ImageManager.MOB_ENEMY_IMAGE.getWidth())),
+                                (int) (Math.random() * Main.WINDOW_HEIGHT * 0.1),
+                                2, // 横向速度
+                                8, // 纵向速度
+                                30 // 生命值
+                        );
                     }
+                    enemyAircrafts.add(enemy);
                 }
                 // 飞机射出子弹
                 shootAction();
@@ -266,18 +264,22 @@ public class Game extends JPanel {
                             score += 10;
                         }else if(enemyAircraft instanceof EliteEnemy){
                             score += 30;
+                            PropFactory propFactory;
+                            AbstractProp prop;
                             if(Math.random() < PropFactor){
                                 double PropSeed = Math.random();
                                 if(PropSeed < HpPropFactor){
-                                    //敌机坠毁处掉落静止道具
-                                    props.add(new HpProp(enemyAircraft.getLocationX(), enemyAircraft.getLocationY(), 0, 4));
+                                    //敌机坠毁处掉落血包道具
+                                    propFactory = new HpPropFactory();
                                 }else if(PropSeed < BulletPropFactor){
                                     //敌机坠毁处掉落子弹道具
-                                    props.add(new BulletProp(enemyAircraft.getLocationX(), enemyAircraft.getLocationY(), 0, 4));
+                                    propFactory = new BulletPropFactory();
                                 }else{
                                     //敌机坠毁处掉落炸弹道具
-                                    props.add(new BombProp(enemyAircraft.getLocationX(), enemyAircraft.getLocationY(), 0, 4));
+                                    propFactory = new BombPropFactory();
                                 }
+                                prop = propFactory.createProp(enemyAircraft.getLocationX(), enemyAircraft.getLocationY(), 0, 4);
+                                props.add(prop);
                             }
                         }
                     }

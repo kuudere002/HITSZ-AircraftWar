@@ -6,7 +6,7 @@ import edu.hitsz.bullet.EnemyBullet;
 
 import java.util.*;
 
-public class EliteEnemy extends AbstractAircraft{
+public class EliteEnemy extends EnemyAircraft{
 
     //子弹单次发射数量
     private int shootNum = 1;
@@ -20,14 +20,6 @@ public class EliteEnemy extends AbstractAircraft{
         super(locationX, locationY, speedX, speedY, hp);
     }
 
-    @Override
-    public void forward() {
-        super.forward();
-        // 判定 y 轴向下飞行出界
-        if (locationY >= Main.WINDOW_HEIGHT ) {
-            vanish();
-        }
-    }
 
     @Override
     public List<BaseBullet> shoot() {

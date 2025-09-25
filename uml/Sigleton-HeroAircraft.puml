@@ -1,0 +1,17 @@
+@startuml
+class HeroAircraft {
+  - volatile static HeroAircraft instance
+  - int shootNum
+  - int power
+  - int direction
+  - HeroAircraft(int locationX, int locationY, int speedX, int speedY, int hp)
+  + static HeroAircraft getInstance(int locationX, int locationY, int speedX, int speedY, int hp)
+  + void forward()
+  + List<BaseBullet> shoot()
+  + void increaseHp(int addHp)
+}
+
+
+
+note right of HeroAircraft: 单例模式要点：\n1. 私有静态实例\n2. 私有构造器\n3. 公有静态获取方法（双重检查锁定）
+@enduml
