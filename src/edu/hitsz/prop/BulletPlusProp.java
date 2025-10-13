@@ -1,10 +1,11 @@
 package edu.hitsz.prop;
 
+import edu.hitsz.ShootModule.CircleShootStrategy;
 import edu.hitsz.ShootModule.FanShootStrategy;
 import edu.hitsz.aircraft.HeroAircraft;
 
-public class BulletProp extends AbstractProp{
-    public BulletProp(int locationX, int locationY, int speedX, int speedY) {
+public class BulletPlusProp extends AbstractProp{
+    public BulletPlusProp(int locationX, int locationY, int speedX, int speedY) {
         super(locationX, locationY, speedX, speedY);
     }
     /*
@@ -12,6 +13,6 @@ public class BulletProp extends AbstractProp{
      */
     @Override
     public void effect(HeroAircraft hero) {
-        hero.setStrategy(new FanShootStrategy());
+        hero.setStrategy(new CircleShootStrategy());
     }
 }

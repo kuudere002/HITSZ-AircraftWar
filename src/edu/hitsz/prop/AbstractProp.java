@@ -20,4 +20,5 @@ public abstract class AbstractProp extends AbstractFlyingObject {
 
     // 道具效果
     public abstract void effect(HeroAircraft hero);
+
 }
