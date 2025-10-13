@@ -1,0 +1,79 @@
+@startuml
+title 弹道策略模式UML类图
+
+' 策略接口
+interface ShootStrategy {
+  + shoot(aircraft: AbstractAircraft): List<BaseBullet>
+}
+
+' 具体策略实现类
+class DirectShootStrategy implements ShootStrategy {
+  + shoot(aircraft: AbstractAircraft): List<BaseBullet>
+}
+
+class FanShootStrategy implements ShootStrategy {
+  + shoot(aircraft: AbstractAircraft): List<BaseBullet>
+}
+
+class CircleShootStrategy implements ShootStrategy {
+  + shoot(aircraft: AbstractAircraft): List<BaseBullet>
+}
+
+' 抽象飞机类（策略使用者）
+abstract class AbstractAircraft {
+  - strategy: ShootStrategy
+  + setStrategy(strategy: ShootStrategy)
+  + shoot(): List<BaseBullet>
+}
+
+' 具体飞机类
+class HeroAircraft extends AbstractAircraft {
+  - instance: HeroAircraft
+  + getHeroAircraft(): HeroAircraft
+}
+
+class EliteEnemy extends AbstractAircraft {
+}
+
+class ElitePlusEnemy extends AbstractAircraft {
+}
+
+class BossEnemy extends AbstractAircraft {
+}
+
+' 子弹类
+abstract class BaseBullet {
+  + BaseBullet(locationX: int, locationY: int, speedX: int, speedY: int, power: int)
+}
+
+class HeroBullet extends BaseBullet {
+}
+
+class EnemyBullet extends BaseBullet {
+}
+
+' 道具类（影响策略）
+class BulletProp {
+  + effect(hero: HeroAircraft)
+}
+
+class BulletPlusProp {
+  + effect(hero: HeroAircraft)
+}
+
+class Game {
+}
+' 关系
+AbstractAircraft o--> ShootStrategy: uses
+
+Game ..> AbstractAircraft
+
+
+BulletProp --> HeroAircraft: affects
+BulletPlusProp --> HeroAircraft: affects
+HeroAircraft --> HeroBullet: creates
+EliteEnemy --> EnemyBullet: creates
+ElitePlusEnemy --> EnemyBullet: creates
+BossEnemy --> EnemyBullet: creates
+
+@enduml

@@ -40,4 +40,5 @@ public abstract class BaseBullet extends AbstractFlyingObject {
     public int getPower() {
         return power;
     }
+
 }

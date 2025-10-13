@@ -1,24 +1,31 @@
 package edu.hitsz.aircraft;
 
-import edu.hitsz.ShootModule.DirectShootStrategy;
+import edu.hitsz.ShootModule.FanShootStrategy;
 import edu.hitsz.ShootModule.ShootStrategy;
-import edu.hitsz.application.Main;
 import edu.hitsz.bullet.BaseBullet;
 import edu.hitsz.bullet.EnemyBullet;
-import edu.hitsz.prop.*;
 
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
 
-public class EliteEnemy extends EnemyAircraft{
-
+public class ElitePlusEnemy extends EnemyAircraft{
     //子弹单次发射数量
-    private int shootNum = 1;
+    private int shootNum = 3;
     //子弹伤害
     private int power = 5;
     //子弹射击方向 1向下 -1向下
     private int direction = 1; // 子弹向下发射
-    //最大生命
-    private int maxHp = 50;
+
+    private int maxHp = 80;
+
+    public int getMaxHp() {
+        return maxHp;
+    }
+
+    public void setMaxHp(int maxHp) {
+        this.maxHp = maxHp;
+    }
+
 
     public int getShootNum() {
         return shootNum;
@@ -52,29 +59,21 @@ public class EliteEnemy extends EnemyAircraft{
         this.strategy = strategy;
     }
 
-
-    public EliteEnemy(int locationX, int locationY, int speedX, int speedY, int hp) {
+    public ElitePlusEnemy(int locationX, int locationY, int speedX, int speedY, int hp) {
         super(locationX, locationY, speedX, speedY, hp);
-        strategy = new DirectShootStrategy();
+        strategy = new FanShootStrategy();
     }
 
 
     @Override
     public List<BaseBullet> shoot() {
-        return strategy.shoot(this);
+       return strategy.shoot(this);
     }
 
     @Override
     public void getBombed() {
-        // 直接销毁
-        this.decreaseHp(this.hp);
+        // 掉一半血量
+        this.decreaseHp(this.hp / 2);
     }
 
-    public int getMaxHp() {
-        return maxHp;
-    }
-
-    public void setMaxHp(int maxHp) {
-        this.maxHp = maxHp;
-    }
 }

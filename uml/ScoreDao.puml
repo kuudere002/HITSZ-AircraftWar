@@ -1,0 +1,39 @@
+@startuml
+skinparam style strictuml
+
+interface ScoreDao {
+  + saveScore(score: Score): void
+  + getAllScores(): List<Score>
+  + deleteScore(score: Score): void
+}
+
+class ScoreDaoImpl {
+  - SCORE_FILE: String
+  - sdf: SimpleDateFormat
+  + saveScore(score: Score): void
+  + getAllScores(): List<Score>
+  + deleteScore(score: Score): void
+}
+
+class Score {
+  - playerName: String
+  - score: int
+  - recordTime: Date
+  + Score(playerName: String, score: int, recordTime: Date)
+  + getPlayerName(): String
+  + getScore(): int
+  + getRecordTime(): Date
+}
+
+class Game {
+  - score: int
+  + getScore(): int
+}
+
+ScoreDaoImpl --|> ScoreDao
+Game ..> Score: creates
+Game ..> ScoreDaoImpl: uses
+ScoreDaoImpl ..> Score: uses
+
+
+@enduml
