@@ -1,0 +1,23 @@
+@startuml
+class Game {
+   - action() : void
+}
+
+class BombProp {
+  + effect(HeroAircraft hero) : void
+}
+
+
+class EnemyAircraft {
+  + getBombed() : void
+}
+
+class EnemyBullet {
+  + vanish() : void
+}
+
+Game ..> BombProp
+
+BombProp *--> EnemyAircraft : notifies
+BombProp *--> EnemyBullet : notifies
+@enduml

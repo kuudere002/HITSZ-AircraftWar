@@ -22,12 +22,18 @@ public class MusicThread extends Thread {
     private String filename;
     private AudioFormat audioFormat;
     private byte[] samples;
+    private boolean isLoop;
 
     private volatile boolean isRunning = true;
 
     public MusicThread(String filename) {
+        this(filename,false);
+    }
+
+    public MusicThread(String filename,boolean isLoop) {
         //初始化filename
         this.filename = filename;
+        this.isLoop = isLoop;
         reverseMusic();
     }
 
@@ -101,8 +107,17 @@ public class MusicThread extends Thread {
 
     @Override
     public void run() {
-        InputStream stream = new ByteArrayInputStream(samples);
-        play(stream);
+        if (isLoop) {
+            // 循环播放逻辑（仅对BGM生效）
+            while (isRunning) {
+                InputStream stream = new ByteArrayInputStream(samples);
+                play(stream);
+            }
+        } else {
+            // 单次播放逻辑（用于音效）
+            InputStream stream = new ByteArrayInputStream(samples);
+            play(stream);
+        }
     }
 }
 

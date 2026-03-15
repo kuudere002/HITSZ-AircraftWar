@@ -36,7 +36,7 @@ public class MusicManager {
         }
         stopBackgroundMusic();
         if (soundEnabled) {
-            backgroundMusic = new MusicThread("src/videos/bgm.wav");
+            backgroundMusic = new MusicThread("src/videos/bgm.wav",true);
             backgroundMusic.setDaemon(true);
             backgroundMusic.start();
             currentMusic = MusicType.BACKGROUND; // 更新状态
@@ -50,7 +50,7 @@ public class MusicManager {
         }
         stopBossMusic();
         if (soundEnabled) {
-            bossMusic = new MusicThread("src/videos/bgm_boss_1.wav");
+            bossMusic = new MusicThread("src/videos/bgm_boss_1.wav",true);
             bossMusic.setDaemon(true);
             bossMusic.start();
             currentMusic = MusicType.BOSS; // 更新状态

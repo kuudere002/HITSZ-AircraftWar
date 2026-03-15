@@ -1,74 +1,57 @@
 @startuml
-interface EnemyFactory {
-  + createEnemy(int locationX, int locationY, int speedX, int speedY, int hp): EnemyAircraft
-}
-
-class EliteFactory implements EnemyFactory {
-  + createEnemy(int locationX, int locationY, int speedX, int speedY, int hp): EnemyAircraft
-}
-
-class MobFactory implements EnemyFactory {
-  + createEnemy(int locationX, int locationY, int speedX, int speedY, int hp): EnemyAircraft
-}
-
-abstract class EnemyAircraft {
-  + abstract List<BaseBullet> shoot()
-}
-
-class EliteEnemy extends EnemyAircraft {
-  + shoot(): List<BaseBullet>
-}
-
-class MobEnemy extends EnemyAircraft {
-  + shoot(): List<BaseBullet>
-}
-
 interface PropFactory {
-  + createProp(int locationX, int locationY, int speedX, int speedY): AbstractProp
+  + createProp(int locationX, int locationY, int speedX, int speedY) : AbstractProp
 }
 
-class HpPropFactory implements PropFactory {
-  + createProp(int locationX, int locationY, int speedX, int speedY): AbstractProp
+class HpPropFactory {
+  + createProp(...) : AbstractProp
 }
 
-class BulletPropFactory implements PropFactory {
-  + createProp(int locationX, int locationY, int speedX, int speedY): AbstractProp
+class BulletPropFactory {
+  + createProp(...) : AbstractProp
 }
 
-class BombPropFactory implements PropFactory {
-  + createProp(int locationX, int locationY, int speedX, int speedY): AbstractProp
+class BulletPlusPropFactory {
+  + createProp(...) : AbstractProp
+}
+
+class BombPropFactory {
+  + createProp(...) : AbstractProp
 }
 
 abstract class AbstractProp {
-  + abstract void effect(HeroAircraft hero)
+  + effect(HeroAircraft hero) : void
 }
 
-class HpProp extends AbstractProp {
-  + effect(HeroAircraft hero)
+class HpProp {
+  + effect(HeroAircraft hero) : void
 }
 
-class BulletProp extends AbstractProp {
-  + effect(HeroAircraft hero)
+class BulletProp {
+  + effect(HeroAircraft hero) : void
 }
 
-class BombProp extends AbstractProp {
-  + effect(HeroAircraft hero)
+class BulletPlusProp {
+  + effect(HeroAircraft hero) : void
 }
 
-class Game {
-  - List<AbstractAircraft> enemyAircrafts
-  - List<AbstractProp> props
-  + action()
+class BombProp {
+  + loadTarget(List<EnemyAircraft>, List<BaseBullet>) : void
+  + effect(HeroAircraft hero) : void
 }
 
+PropFactory <|-- HpPropFactory
+PropFactory <|-- BulletPropFactory
+PropFactory <|-- BulletPlusPropFactory
+PropFactory <|-- BombPropFactory
 
-EliteFactory --> EliteEnemy: creates
-MobFactory --> MobEnemy: creates
-HpPropFactory --> HpProp: creates
-BulletPropFactory --> BulletProp: creates
-BombPropFactory --> BombProp: creates
+AbstractProp <|-- HpProp
+AbstractProp <|-- BulletProp
+AbstractProp <|-- BulletPlusProp
+AbstractProp <|-- BombProp
 
-
-Game --> EnemyFactory: uses
-Game --> PropFactory: uses
+HpPropFactory --> HpProp : creates
+BulletPropFactory --> BulletProp : creates
+BulletPlusPropFactory --> BulletPlusProp : creates
+BombPropFactory --> BombProp : creates
 @enduml

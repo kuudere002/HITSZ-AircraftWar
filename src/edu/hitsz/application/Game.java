@@ -300,7 +300,7 @@ public class Game extends JPanel {
                 BossCount++;
             }
             // 生成其他敌机
-            else if (random > difficultyStrategy.getEliteSpawnProbability(time)) {
+            else if (random > difficultyStrategy.getEliteSpawnProbability(time) * 3) {
                 EnemyProperties props = difficultyStrategy.getElitePlusEnemyProperties(time);
                 enemyFactory = new ElitePlusFactory();
                 enemy = enemyFactory.createEnemy(
@@ -312,7 +312,7 @@ public class Game extends JPanel {
                 );
                 ((ElitePlusEnemy)enemy).setPower(props.getPower());
             }
-            else if (random > difficultyStrategy.getEliteSpawnProbability(time) * 0.6) {
+            else if (random > difficultyStrategy.getEliteSpawnProbability(time) * 2) {
                 EnemyProperties props = difficultyStrategy.getEliteEnemyProperties(time);
                 enemyFactory = new EliteFactory();
                 enemy = enemyFactory.createEnemy(
